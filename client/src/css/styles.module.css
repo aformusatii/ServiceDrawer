@@ -1,0 +1,48 @@
+.tilesBox {
+    display:         flex;
+    flex-wrap:       wrap;
+    justify-content: center;
+}
+
+.tileBox {
+    width: 120px;
+    height: 80px;
+    /*background-color: gray;*/
+    border: 1px solid darkgrey;
+    margin-bottom: 10px;
+    margin-right: 10px;
+
+    cursor: pointer;
+    -webkit-appearance: button;
+    user-select: none;
+}
+
+.tileBox:hover {
+    background-color: lightgray;
+}
+
+.tileTitle {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    height: 20px;
+    padding: 0px 5px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tileImage {
+    height: 60px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tileImage img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: cover;
+}
