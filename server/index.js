@@ -7,6 +7,7 @@ import cors from 'cors';
 import {downloadHandler, uploadHandlerV3, deleteImage} from './src/ImageHandler.js';
 import fs from "fs/promises";
 import path from "path";
+import {fileExists, readAll} from "./src/Utils";
 
 const PORT = process.env.PORT || 3001;
 
@@ -62,7 +63,13 @@ app.get("/api/configuration", async (req, res) => {
     const filePath = './configuration.yaml';
 
     try {
-        const data = await fs.readFile(filePath, 'utf8');
+        // check if the file exists
+        if (!await fileExists(filePath)) {
+            const data = await readAll('configuration.yaml.template');
+            await fs.writeFile(filePath, data, 'utf8');
+        }
+
+        const data = await readAll(filePath);
         res.setHeader('Content-Type', 'text/yaml');
         res.send(data);
     } catch (e) {

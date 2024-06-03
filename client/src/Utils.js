@@ -22,4 +22,4 @@ function isSet(value) {
     return !isNotSet(value);
 }
 
-export { clone, resolveImageUrl, isNotSet, isSet, resolveApiUrl };
+export { clone, resolveImageUrl, isNotSet, isSet, resolveApiUrl};
