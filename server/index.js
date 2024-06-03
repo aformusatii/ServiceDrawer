@@ -86,6 +86,8 @@ app.put("/api/configuration", express.text(), async (req, res) => {
 
 // ========================= Images API =========================
 app.use('/images/download', downloadHandler);
+app.use(express.static('../client/build'));
+app.use('*', express.static('../client/build'));
 
 //app.post("/images/upload", uploadHandler, uploadHandlerV2);
 app.post("/images/upload/base64", uploadHandlerV3);
