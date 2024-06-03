@@ -7,7 +7,7 @@ import cors from 'cors';
 import {downloadHandler, uploadHandlerV3, deleteImage} from './src/ImageHandler.js';
 import fs from "fs/promises";
 import path from "path";
-import {fileExists, readAll} from "./src/Utils";
+import {fileExists, readAll} from "./src/Utils.js";
 
 const PORT = process.env.PORT || 3001;
 
