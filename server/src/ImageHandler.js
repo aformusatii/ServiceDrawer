@@ -93,4 +93,10 @@ const deleteImage = async (filename) => {
     }
 }
 
+const initFolder = async () => {
+    await fs.mkdir(IMAGES_FOLDER);
+}
+
+initFolder();
+
 export {uploadHandler, downloadHandler, uploadHandlerV2, uploadHandlerV3, deleteImage};
