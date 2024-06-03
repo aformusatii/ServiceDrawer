@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DesktopDashboardPage from "./DesktopDashboardPage";
 import ConfigEditPage from "./ConfigEditPage";
 import MobileDashboardPage from "./MobileDashboardPage";
+import {useState} from "react";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
     return (
         <Router>
             <div className="App">
-                {!noNavBarPaths.includes(window.location.pathname) && <AppNavBar/>}
+                {!noNavBarPaths.some(noNavBarPath => window.location.pathname.startsWith(noNavBarPath)) && <AppNavBar/>}
                 <Container style={containerStyle} fluid>
                     <Routes>
                         <Route path="/" element={<HomePage/>} />
