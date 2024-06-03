@@ -4,7 +4,7 @@ import {v4} from 'uuid';
 import express from 'express';
 import sharp from "sharp";
 import fs from 'fs/promises';
-import {isSet} from "./Utils.js";
+import {isSet, fileExists} from "./Utils.js";
 
 const IMAGES_FOLDER = './images';
 const IMAGE_MAX_WIDTH = 400;
@@ -92,5 +92,13 @@ const deleteImage = async (filename) => {
         console.error(error);
     }
 }
+
+const initFolder = async () => {
+    if (!await fileExists(IMAGES_FOLDER)) {
+        await fs.mkdir(IMAGES_FOLDER);
+    }
+}
+
+initFolder();
 
 export {uploadHandler, downloadHandler, uploadHandlerV2, uploadHandlerV3, deleteImage};

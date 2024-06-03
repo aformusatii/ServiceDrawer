@@ -134,5 +134,6 @@ package-lock.json
 node_modules/
 services.db/
 .idea/
+server/images/
 
 configuration.yaml
