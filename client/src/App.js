@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DesktopDashboardPage from "./DesktopDashboardPage";
 import ConfigEditPage from "./ConfigEditPage";
 import MobileDashboardPage from "./MobileDashboardPage";
-import {useState} from "react";
 
 
 function App() {
