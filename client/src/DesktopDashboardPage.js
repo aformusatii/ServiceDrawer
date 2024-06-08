@@ -3,7 +3,7 @@ import ServiceRepository from "./ServiceRepository";
 import ConfigurationRepository from "./ConfigurationRepository";
 import {isSet, resolveImageUrl} from "./Utils";
 import {Spinner} from "react-bootstrap";
-import styles from './css/styles.module.css';
+import styles from './css/desktop.module.css';
 import {parse} from "yaml";
 
 const serviceRepository = new ServiceRepository();
