@@ -8,7 +8,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DesktopDashboardPage from "./DesktopDashboardPage";
 import ConfigEditPage from "./ConfigEditPage";
 import MobileDashboardPage from "./MobileDashboardPage";
-
+import {Helmet} from "react-helmet";
+import React from "react";
 
 function App() {
 
@@ -22,6 +23,9 @@ function App() {
     return (
         <Router>
             <div className="App">
+                <Helmet>
+                    <title>Service Drawer</title>
+                </Helmet>
                 {!noNavBarPaths.some(noNavBarPath => window.location.pathname.startsWith(noNavBarPath)) && <AppNavBar/>}
                 <Container style={containerStyle} fluid>
                     <Routes>

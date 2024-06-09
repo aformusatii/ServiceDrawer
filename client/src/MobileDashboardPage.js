@@ -5,6 +5,7 @@ import {isSet, resolveImageUrl} from "./Utils";
 import {Spinner} from "react-bootstrap";
 import styles from './css/mobile.module.css';
 import {parse} from "yaml";
+import { Helmet } from 'react-helmet';
 
 const serviceRepository = new ServiceRepository();
 const configurationRepository = new ConfigurationRepository();
@@ -65,6 +66,11 @@ const MobileDashboardPage = () => {
 
     return (
         <div>
+            <Helmet>
+                <meta name="theme-color" content="#4595f1" />
+                <link rel="manifest" href="/mobile-manifest.json" />
+                <title>My Home</title>
+            </Helmet>
             {dataLoaded ? ServicesSection : <Spinner animation="border" role="status"/>}
         </div>
     );
