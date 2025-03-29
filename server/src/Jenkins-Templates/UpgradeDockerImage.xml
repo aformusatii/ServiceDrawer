@@ -7,7 +7,7 @@
         <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
             <triggers>
                 <hudson.triggers.TimerTrigger>
-                    <spec>0 2 * * 6</spec>
+                    <spec>{{triggerCron}}</spec>
                 </hudson.triggers.TimerTrigger>
             </triggers>
         </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
