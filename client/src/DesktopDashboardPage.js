@@ -60,7 +60,7 @@ const DesktopDashboardPage = () => {
     );
 
     return (
-        <div>
+        <div class="container">
             {dataLoaded ? ServicesSection : <Spinner animation="border" role="status"/>}
         </div>
     );
