@@ -103,6 +103,31 @@ class ServiceRepository {
         }).then(response => response.json());
     }
 
+    async getJenkinsMetadata() {
+        return fetch('/api/jobs/meta')
+            .then(response => response.json());
+    }
+
+    async updateJob(jobId, service) {
+        return fetch('/api/jobs/' + jobId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(service.value)
+        }).then(response => response.json());
+    }
+
+    async buildJob(jobId, service) {
+        return fetch('/api/jobs/' + jobId + '/build', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(service.value)
+        }).then(response => response.json());
+    }
+
     delete(service) {
         return fetch('/api/services/' + service.key, {
             method: 'DELETE'

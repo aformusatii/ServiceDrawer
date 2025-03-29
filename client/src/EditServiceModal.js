@@ -13,6 +13,11 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/webpack-resolver";
 import RichTextEditor from "./RichTextEditor";
+import ServiceRepository from './ServiceRepository';
+
+import { ToastContainer, toast } from 'react-toastify';
+
+const serviceRepository = new ServiceRepository();
 
 
 function EditServiceModal({ show, onClose, onSave, service}) {
@@ -71,6 +76,41 @@ function EditServiceModal({ show, onClose, onSave, service}) {
         service.value.textDetails = value;
     }
 
+    const updateJenkinsJob = async (jobId, service) => {
+        console.log('updateJenkinsJob', service);
+        const result = await serviceRepository.updateJob(jobId, service);
+        //console.log('result', result);
+        if (result.ok) {
+            toast.success(result.message);
+        } else {
+            toast.error(result.message);
+        }
+    }
+
+    const buildJenkinsJob = async (jobId, service) => {
+        console.log('buildJenkinsJob', service);
+        const result = await serviceRepository.buildJob(jobId, service);
+        console.log('result', result);
+        if (result.ok) {
+            toast.success(result.message);
+        } else {
+            toast.error(result.message);
+        }
+    }
+
+    const goToJenkinsJob = async (jobId, service) => {
+        console.log('goToJenkinsJob', service.value);
+        const jobProperties = service.value.properties.object.jenkins.updateDockerImageJob;
+
+        const encodedParentFolder = encodeURIComponent(jobProperties.parentFolder);
+        const encodedJobName = encodeURIComponent(jobProperties.name);
+
+        const jenkinsInfo = await serviceRepository.getJenkinsMetadata();
+        const jenkinsJobUrl = `${jenkinsInfo.url}/job/${encodedParentFolder}/job/${encodedJobName}`;
+
+        window.open(jenkinsJobUrl, '_blank');
+    }
+
     const editorStyle = {
         width: '100%',
         height: 400,
@@ -117,6 +157,14 @@ function EditServiceModal({ show, onClose, onSave, service}) {
                         <Tab eventKey="details" title="Text Details">
                             <div style={tabStyle} className={"tab-content"}>
                                 <RichTextEditor value={service.value.textDetails} onChange={handleRichEditorChange}/>
+                            </div>
+                        </Tab>
+                        <Tab eventKey="jenkins" title="Jenkins Jobs">
+                            <div style={tabStyle} className={"tab-content"}>
+                                <button type="button" onClick={() => updateJenkinsJob('UpgradeDockerImage', service)} className="btn btn-primary">Create or Update - Upgrade Image Job</button>
+                                <button type="button" onClick={() => buildJenkinsJob('UpgradeDockerImage', service)} className="btn btn-primary ms-2">Build - Upgrade Image Job</button>
+                                <button type="button" onClick={() => goToJenkinsJob('UpgradeDockerImage', service)} className="btn btn-primary ms-2">Go To - Upgrade Image Job</button>
+                                <ToastContainer autoClose={1000}/>
                             </div>
                         </Tab>
                     </Tabs>

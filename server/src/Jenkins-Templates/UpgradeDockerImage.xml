@@ -1,0 +1,42 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job">
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    {{#if triggerCron}}
+    <properties>
+        <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+            <triggers>
+                <hudson.triggers.TimerTrigger>
+                    <spec>0 2 * * 6</spec>
+                </hudson.triggers.TimerTrigger>
+            </triggers>
+        </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+    </properties>
+    {{else}}
+    <properties/>
+    {{/if}}
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps">
+        <script><![CDATA[@Library('JenkinsHomelabLibrary') _
+
+pipeline {
+    agent any
+    stages {
+        stage('SSH Command Execution') {
+            steps {
+                dockerUpdateImage(
+                    WORKING_DIR: '{{workingDir}}',
+                    SERVICE: '{{dockerComposeService}}',
+                    SSH_HOST: '{{sshHost}}',
+                    SSH_USER: '{{sshUser}}',
+                    CREDENTIALS_ID: '{{sshCredentialsId}}'
+                )
+            }
+        }
+    }
+}
+]]></script>
+        <sandbox>true</sandbox>
+    </definition>
+    <triggers/>
+    <disabled>false</disabled>
+</flow-definition>

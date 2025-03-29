@@ -1,5 +1,6 @@
 import express from 'express';
 import ServiceRepository from './src/ServiceRepository.js';
+import JenkinsService from './src/JenkinsService.js';
 import {v4} from 'uuid';
 
 import cors from 'cors';
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 const serviceRepository = new ServiceRepository('./services.db');
+const jenkinsService = new JenkinsService();
 
 app.use(express.json({limit: '15mb'}));
 app.use(cors());
@@ -56,6 +58,38 @@ app.delete("/api/services/:key", async (req, res) => {
 
     await serviceRepository.del(key);
     res.json({ message: "Service deleted successfully" });
+});
+
+// ========================= Jenkins Job API =========================
+app.get('/api/jobs/meta', async (req, res) => {
+    const meta = await jenkinsService.getMeta();
+    res.json(meta);
+});
+
+app.post("/api/jobs/:jobId", async (req, res) => {
+    const jobId = req.params.jobId;
+    const service = req.body;
+
+    try {
+        const result = await jenkinsService.createOrUpdateJob(jobId, service);
+        res.json({ ok: true, message: result });
+    } catch (e) {
+        console.error(e);
+        res.json({ ok: false, message: "Error" + e });
+    }
+});
+
+app.post("/api/jobs/:jobId/build", async (req, res) => {
+    const jobId = req.params.jobId;
+    const service = req.body;
+
+    try {
+        const result = await jenkinsService.buildJob(jobId, service);
+        res.json({ ok: true, message: result });
+    } catch (e) {
+        console.error(e);
+        res.json({ ok: false, message: "Error" + e });
+    }
 });
 
 // ========================= Configuration API =========================
